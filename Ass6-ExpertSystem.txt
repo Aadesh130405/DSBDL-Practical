@@ -1,0 +1,161 @@
+# ---------------- RULE BASE ----------------
+
+# Dictionary storing expert rules
+rules = {
+
+    # Positive rules
+    "rule1": "If employee meets deadlines, add 20 points",
+
+    "rule2": "If employee exceeds expectations, add 30 points",
+
+    "rule3": "If employee takes initiative, add 15 points",
+
+    # Negative rules
+    "rule4": "If employee has absences, subtract 25 points",
+
+    "rule5": "If employee performs below expectations, subtract 35 points"
+}
+
+
+
+# ---------------- INFERENCE ENGINE ----------------
+
+# Function to evaluate employee score
+def evaluate_employee_performance(deadlines_met,
+                                  expectations_exceeded,
+                                  initiative_taken,
+                                  absences,
+                                  performance_below_expectations):
+
+    # Initial score
+    score = 0
+
+
+    # Apply Rule 1
+    if deadlines_met:
+        score += 20
+
+
+    # Apply Rule 2
+    if expectations_exceeded:
+        score += 30
+
+
+    # Apply Rule 3
+    if initiative_taken:
+        score += 15
+
+
+    # Apply Rule 4
+    if absences:
+        score -= 25
+
+
+    # Apply Rule 5
+    if performance_below_expectations:
+        score -= 35
+
+
+    # Return final score
+    return score
+
+
+
+# ---------------- KNOWLEDGE BASE ----------------
+
+# Dictionary to store employee data
+employee_data = {}
+
+# Input total employees
+n = int(input("Enter number of employees: "))
+
+
+# Loop for employee input
+for i in range(n):
+
+    # Employee name
+    name = input("Enter employee name: ")
+
+
+    # Input employee details
+    deadlines_met = bool(int(input("Deadlines met? (1/0): ")))
+
+    expectations_exceeded = bool(int(input("Exceeded expectations? (1/0): ")))
+
+    initiative_taken = bool(int(input("Took initiative? (1/0): ")))
+
+    absences = bool(int(input("Had absences? (1/0): ")))
+
+    performance_below_expectations = bool(
+        int(input("Below expectations? (1/0): "))
+    )
+
+
+    # Store employee information
+    employee_data[name] = {
+
+        "deadlines_met": deadlines_met,
+
+        "expectations_exceeded": expectations_exceeded,
+
+        "initiative_taken": initiative_taken,
+
+        "absences": absences,
+
+        "performance_below_expectations":
+        performance_below_expectations
+    }
+
+
+
+# ---------------- DISPLAY RULES ----------------
+
+print("\nRules Used:")
+
+# Print all rules
+for rule in rules.values():
+    print(rule)
+
+
+
+# ---------------- PERFORMANCE EVALUATION ----------------
+
+print("\nEmployee Performance Scores:")
+
+
+# Evaluate each employee
+for name, data in employee_data.items():
+
+    # Call evaluation function
+    score = evaluate_employee_performance(
+
+        data["deadlines_met"],
+
+        data["expectations_exceeded"],
+
+        data["initiative_taken"],
+
+        data["absences"],
+
+        data["performance_below_expectations"]
+    )
+
+    # Print final score
+    print(name, ":", score)
+
+output
+Enter number of employees: 2
+
+Enter employee name: Rahul
+Deadlines met? 1
+Exceeded expectations? 1
+Took initiative? 1
+Had absences? 0
+Below expectations? 0
+
+Enter employee name: Amit
+Deadlines met? 1
+Exceeded expectations? 0
+Took initiative? 0
+Had absences? 1
+Below expectations? 1

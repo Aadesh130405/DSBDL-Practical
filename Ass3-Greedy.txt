@@ -1,0 +1,125 @@
+# Class for Disjoint Set (Union-Find)
+class DisjointSet:
+
+    def __init__(self, num_vertices):
+
+        # Initially each vertex is its own parent
+        self.parent = list(range(num_vertices))
+
+
+    # Find root parent of a vertex
+    def find_parent(self, vertex):
+
+        # Path Compression Optimization
+        if self.parent[vertex] != vertex:
+
+            # Recursively find root parent
+            self.parent[vertex] = self.find_parent(self.parent[vertex])
+
+        return self.parent[vertex]
+
+
+    # Union of two sets
+    def union_sets(self, vertex1, vertex2):
+
+        # Find root parents
+        root1 = self.find_parent(vertex1)
+        root2 = self.find_parent(vertex2)
+
+        # If roots different, combine sets
+        if root1 != root2:
+
+            # Make root1 parent of root2
+            self.parent[root2] = root1
+
+
+
+# Function for Kruskal MST
+def kruskal_mst(num_vertices, edge_list):
+
+    # Create disjoint set object
+    disjoint_set = DisjointSet(num_vertices)
+
+    # Sort edges according to weight
+    sorted_edges = sorted(edge_list, key=lambda edge: edge[2])
+
+    # Store MST edges
+    mst_edges = []
+
+    # Total MST weight
+    total_weight = 0
+
+
+    # Traverse sorted edges
+    for vertex1, vertex2, weight in sorted_edges:
+
+        # Check cycle condition
+        if disjoint_set.find_parent(vertex1) != disjoint_set.find_parent(vertex2):
+
+            # Join sets
+            disjoint_set.union_sets(vertex1, vertex2)
+
+            # Add edge into MST
+            mst_edges.append((vertex1, vertex2, weight))
+
+            # Add weight
+            total_weight += weight
+
+
+    # Return MST and total weight
+    return mst_edges, total_weight
+
+
+
+# ---------------- INPUT SECTION ----------------
+
+# Input number of vertices
+num_vertices = int(input("Enter number of vertices: "))
+
+# Input number of edges
+num_edges = int(input("Enter number of edges: "))
+
+# Empty edge list
+edges = []
+
+
+# Input edges
+for _ in range(num_edges):
+
+    # Input format:
+    # start_vertex end_vertex weight
+    u, v, w = map(int, input("Enter edge: ").split())
+
+    # Add edge tuple
+    edges.append((u, v, w))
+
+
+
+# ---------------- FUNCTION CALL ----------------
+
+# Run Kruskal Algorithm
+mst_edges, mst_total_weight = kruskal_mst(num_vertices, edges)
+
+
+
+# ---------------- OUTPUT SECTION ----------------
+
+print("\nEdges in Minimum Spanning Tree:")
+
+# Print MST edges
+for u, v, w in mst_edges:
+
+    print(f"{u} - {v} : {w}")
+
+
+# Print total MST weight
+print("Total weight of MST:", mst_total_weight)
+
+Enter number of vertices: 4
+Enter number of edges: 5
+
+0 1 10
+0 2 6
+0 3 5
+1 3 15
+2 3 4

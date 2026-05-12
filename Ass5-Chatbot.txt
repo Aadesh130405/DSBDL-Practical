@@ -1,0 +1,187 @@
+# Coffee Shop Chatbot Class
+class CoffeeShopBot:
+
+
+    # Constructor
+    def __init__(self):
+
+        # Dictionary storing keywords for each intent
+        self.responses = {
+
+            # Greeting keywords
+            "greeting": ["hi", "hello", "hey"],
+
+            # Menu related keywords
+            "menu": ["1", "menu", "coffee", "drink"],
+
+            # Shop timing keywords
+            "hours": ["2", "hours", "time", "open"],
+
+            # Location keywords
+            "location": ["3", "location", "address", "where"],
+
+            # Discounts keywords
+            "discounts": ["4", "discount", "offer", "sale"],
+
+            # Price keywords
+            "prices": ["5", "price", "cost", "rate"],
+
+            # Customer support keywords
+            "customer_support": ["6", "support", "help", "customer care"],
+
+            # Exit/thanks keywords
+            "thanks": ["thanks", "thank you", "bye"]
+        }
+
+
+        # Dictionary storing chatbot replies
+        self.answers = {
+
+            # Greeting message
+            "greeting":
+            "Hello! Welcome to Brew & Byte Coffee Shop.\n"
+            "How can I help you?\n\n"
+            "1. Menu\n"
+            "2. Opening Hours\n"
+            "3. Location\n"
+            "4. Discounts & Offers\n"
+            "5. Prices\n"
+            "6. Customer Support",
+
+
+            # Menu response
+            "menu":
+            "Our menu includes:\n"
+            "- Espresso\n"
+            "- Cappuccino\n"
+            "- Latte\n"
+            "- Mocha\n"
+            "- Cold Coffee\n"
+            "- Green Tea",
+
+
+            # Shop timing response
+            "hours":
+            "We are open from 8:00 AM to 10:00 PM every day.",
+
+
+            # Location response
+            "location":
+            "We are located at Brew & Byte Cafe, MG Road, Pune.",
+
+
+            # Discount response
+            "discounts":
+            "Today's offers:\n"
+            "- 20% off on Cappuccino\n"
+            "- Buy 1 Get 1 Free on Cold Coffee\n"
+            "- Student discount available",
+
+
+            # Price response
+            "prices":
+            "Price List:\n"
+            "Espresso - Rs.120\n"
+            "Cappuccino - Rs.180\n"
+            "Latte - Rs.200\n"
+            "Mocha - Rs.220\n"
+            "Cold Coffee - Rs.160",
+
+
+            # Customer support response
+            "customer_support":
+            "Customer support is available from 8 AM to 10 PM.\n"
+            "Please contact help desk for assistance.",
+
+
+            # Thank you response
+            "thanks":
+            "Thank you for visiting Brew & Byte Coffee Shop.",
+
+
+            # Default response
+            "fallback":
+            "Sorry, I didn't understand that. Please enter 1 to 6."
+        }
+
+
+    # Function to identify user intent
+    def get_intent(self, user_input):
+
+        # Convert input to lowercase
+        user_input = user_input.lower()
+
+        # Traverse all intents
+        for intent, keywords in self.responses.items():
+
+            # Check each keyword
+            for word in keywords:
+
+                # If keyword matches
+                if word in user_input:
+
+                    return intent
+
+        # If no keyword matched
+        return "fallback"
+
+
+    # Chat function
+    def chat(self):
+
+        print("----- Brew & Byte Coffee Shop Bot -----")
+
+        print("Type 'exit' to stop chatbot.")
+
+        # Infinite loop
+        while True:
+
+            # Take user input
+            user_input = input("You: ")
+
+            # Exit condition
+            if user_input.lower() == "exit":
+
+                print("Bot: Goodbye!")
+                break
+
+            # Find intent
+            intent = self.get_intent(user_input)
+
+            # Print response
+            print("Bot:", self.answers[intent])
+
+
+
+# ---------------- MAIN PROGRAM ----------------
+
+# Create object
+bot = CoffeeShopBot()
+
+# Start chatbot
+bot.chat()
+
+Output
+----- Brew & Byte Coffee Shop Bot -----
+
+You: hi
+
+Bot: Hello! Welcome to Brew & Byte Coffee Shop.
+
+You: menu
+
+Bot: Our menu includes:
+- Espresso
+- Cappuccino
+- Latte
+- Mocha
+
+You: prices
+
+Bot: Price List:
+Espresso - Rs.120
+Cappuccino - Rs.180
+
+You: exit
+
+Bot: Goodbye!

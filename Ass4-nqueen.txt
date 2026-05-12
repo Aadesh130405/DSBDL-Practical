@@ -1,0 +1,104 @@
+# Function to print chessboard solution
+def print_solution(board, n):
+
+    # Traverse each row
+    for i in range(n):
+
+        # Place Q where queen exists else .
+        row = ['Q' if board[i] == j else '.' for j in range(n)]
+
+        # Print row
+        print(' '.join(row))
+
+    print()
+
+
+# Function to solve N-Queens using Branch and Bound
+def solve_n_queens_bb(n):
+
+    # Recursive function
+    def solve(row):
+
+        # If all queens placed successfully
+        if row == n:
+
+            # Store solution
+            solutions.append(board[:])
+
+            return
+
+        # Try placing queen in every column
+        for col in range(n):
+
+            # Check:
+            # 1. Column free
+            # 2. Main diagonal free
+            # 3. Anti diagonal free
+            if (not cols[col] and
+                not main_diag[row - col + n - 1] and
+                not anti_diag[row + col]):
+
+                # Place queen
+                board[row] = col
+
+                # Mark attacks
+                cols[col] = True
+                main_diag[row - col + n - 1] = True
+                anti_diag[row + col] = True
+
+                # Recursive call for next row
+                solve(row + 1)
+
+                # ---------------- BACKTRACK ----------------
+                # Remove queen and unmark attacks
+
+                cols[col] = False
+                main_diag[row - col + n - 1] = False
+                anti_diag[row + col] = False
+
+                board[row] = -1
+
+
+    # Track occupied columns
+    cols = [False] * n
+
+    # Track main diagonals
+    main_diag = [False] * (2 * n - 1)
+
+    # Track anti diagonals
+    anti_diag = [False] * (2 * n - 1)
+
+    # Store queen positions
+    board = [-1] * n
+
+    # Store all solutions
+    solutions = []
+
+    # Start solving from row 0
+    solve(0)
+
+    # Print total solutions
+    print(f"\nTotal solutions for {n}-Queens: {len(solutions)}\n")
+
+    # Print all solutions
+    for sol in solutions:
+        print_solution(sol, n)
+
+
+# ---------------- MAIN PROGRAM ----------------
+
+try:
+
+    # Input number of queens
+    n = int(input("Enter value of N: "))
+
+    # Check valid input
+    if n < 1:
+        print("Enter positive integer")
+
+    else:
+        solve_n_queens_bb(n)
+
+# Handle invalid input
+except ValueError:
+    print("Invalid Input")
